@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="crud system">
+  <title>CRUD</title>
+  <!-- fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@400;700&family=Arvo:ital,wght@0,400;0,700;1,400;1,700&family=Jersey+20&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Sevillana&display=swap"
+    rel="stylesheet">
+  <!-- fonts -->
+  <!-- bootstrab -->
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <!-- bootstrab -->
+  <!-- css -->
+  <link rel="stylesheet" href="css/main.css">
+  <!-- css -->
+</head>
+
+<body>
+  <!-- ===============================Nav=================================== -->
+  <nav class="navbar">
+    <div class="container border-bottom border-black">
+      <a class="navbar-brand fs-2" href="./index.html">CRUD system</a>
+      <div class="content">
+        <button class="btn btn-outline-primary me-3" type="submit" onclick="produ()"> Products </button>
+        <button class="btn btn-outline-info" type="submit" onclick="sites()">Sites</button>
+      </div>
+    </div>
+  </nav>
+  <!-- ===============================Nav=================================== -->
+
+  <div class="container">
+
+    <div id="product">
+
+      <!-- ===========================botton add================================ -->
+      <div class="row justify-content-center">
+        <button type="button" class="btn btn-primary btn-lg w-100" data-bs-toggle="modal"
+          data-bs-target="#exampleModal">Add
+          Product</button>
+        <input type="text" name="search" oninput="searchc()" id="search" class="form-control w-75 mt-2 w-50 border-dark-subtle"
+          placeholder="Search For Product...">
+          <div class="alert alert-danger py-1 w-100 mt-2 d-none m-0" role="alert" id="alllert">
+           sorry not valid data
+          </div>
+      </div>
+      <!-- ===========================botton add================================ -->
+      <!-- ============================Modal===================================== -->
+      <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="exampleModalLabel">ADD Product</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <div class="input-group mb-3">
+                <span class="input-group-text">Name</span>
+                <input type="text" aria-label="First name" oninput="validInputs(this,'nameNlert')"
+                  class="form-control w-75" id="productName" name="pname">
+                <div class="alert alert-danger py-1 w-100 mt-2 d-none m-0" role="alert" id="nameNlert">
+                  please enter <b> Capital Letter + At least 2 letters</b>
+                </div>
+              </div>
+              <div class="input-group mb-3">
+                <span class="input-group-text">$</span>
+                <span class="input-group-text">0.00</span>
+                <input type="number" class="form-control w-75"
+                  aria-label="Dollar amount (with dot and two decimal places)" oninput="validInputs(this,'priceAlert')"
+                  id="productPrice" name="pprice">
+                <div class="alert alert-danger py-1 w-100 mt-2 d-none m-0" role="alert" id="priceAlert">
+                  please enter price <b>btween 10-100000 </b>
+                </div>
+              </div>
+              <div class="input-group mb-3">
+                <span class="input-group-text">Catagory</span>
+                <input type="text" aria-label="First name" list="category" class="form-control w-75" id="productDesc"
+                  oninput="validInputs(this,'descAlert')" name="pdesc">
+                <datalist id="category">
+                  <option value="TV" />
+                  <option value="Mobile" />
+                  <option value="Screens" />
+                  <option value="Electronic" />
+                </datalist>
+
+                <div class="alert alert-danger py-1 w-100 mt-2 d-none m-0" role="alert" id="descAlert">
+                  please enter <b> valid Ctegories (TV | Mobile | Screens | Electronic)</b>
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" id="btnadd" class="btn btn-outline-primary w-50 d-block" data-bs-dismiss="modal"
+                onclick="addproduct()">Add</button>
+              <button type="button" id="btnupdate" class="btn btn-outline-warning w-50 d-none" data-bs-dismiss="modal"
+                onclick="update()">Update</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- ============================Modal===================================== -->
+      <!-- ========================table======================================= -->
+      <div class="content pt-4">
+        <table class="table text-center">
+          <thead>
+            <tr>
+              <th scope="col">ID</th>
+              <th scope="col">Name</th>
+              <th scope="col">Price</th>
+              <th scope="col">Category</th>
+              <th scope="col">Update</th>
+              <th scope="col">Delete</th>
+            </tr>
+          </thead>
+          <tbody id="productbody">
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ............................................................................................... -->
+
+
+    <div id="site">
+      <div class="container d-flex justify-content-center mt-3" id="modal">
+
+        <!-- ==========================form====================================== -->
+        <div class="col-8"> 
+          <div class="input-group mb-3">
+            <span class="input-group-text">Name</span>
+            <input type="text"aria-label="First name" oninput="validation(this,'siteAlert')" class="form-control w-75" name="name" id="siteName">
+            <div class="alert alert-danger py-1 w-100 mt-2 d-none m-0" role="alert" id="siteAlert">
+              please enter <b> Capital Letter + At least 2 letters</b>
+            </div>
+          </div>
+          <div class="mb-3">
+            <label for="basic-url" class="form-label">Your vanity URL</label>
+            <div class="input-group">
+              <span class="input-group-text" id="basic-addon3">https://example.com</span>
+              <input type="text" class="form-control w-auto" id="basic_url" oninput="validation(this,'basicAlert')" name="basic_url"
+                aria-describedby="basic-addon3 basic-addon4">
+                <div class="alert alert-danger py-1 w-100 mt-2 d-none m-0" role="alert" id="basicAlert">
+                  please enter <b> Enter valid Url </b> like the Ex
+                </div>
+            </div>
+          </div>
+          <button type="button" class="btn btn-info w-100" id="btnAdd" onclick="siteadd()" data-bs-toggle="modal" data-bs-target="#openModal">Add Sites</button>
+            <input type="text" class="form-control w-100 my-3 border-1 border-success" placeholder="Search for ..." oninput="seArch()" id="searchItem" name="searchItem">
+          <button type="button" id="updatesite" class="btn btn-outline-warning w-50 d-none" onclick="updatesites()"  data-bs-toggle="modal" data-bs-target="#openModal">Update Site</button>
+        </div>
+      </div>
+      <!-- ==============================form====================================== -->
+      <!-- ===============================table==================================== -->
+      <div class="content pt-4">
+        <table class="table text-center">
+          <thead>
+            <tr>
+              <th scope="col">ID</th>
+              <th scope="col">Name</th>
+              <th scope="col">update</th>
+              <th scope="col">Visit</th>
+              <th scope="col">Delete</th>
+            </tr>
+          </thead>
+          <tbody id="sitebody">
+
+          </tbody>
+        </table>
+      </div>
+      <!-- ===============================table=================================== -->
+    </div>
+  </div>
+
+
+
+  <!-- Start Modal -->
+  <div class="modal fade" id="openModal" tabindex="-1" aria-labelledby="openModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content p-4">
+            <div class="modal-header border-0">
+                <div class="circle d-flex gap-1">
+                    <div class="bg-danger rounded-circle"></div>
+                    <div class="bg-danger rounded-circle"></div>
+                    <div class="bg-danger rounded-circle"></div>
+                </div>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <h5 class="fw-bold">Site Name or Url is not valid, Please follow the rules below :</h5>
+            </div>
+            <div class="modal-footer border-0 justify-content-start">
+                <p class="fs-5 fw-semibold"><i class="fa-regular fa-circle-right p-2 text-danger"></i> Site name
+                    must contain at least 3 characters</p>
+                <p class="fs-5 fw-semibold"><i class="fa-regular fa-circle-right p-2 text-danger"></i> Site URL must
+                    be a valid one</p>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- END Modal -->
+
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+    crossorigin="anonymous"></script>
+  <script src="js/index.js"></script>
+</body>
+
+</html>

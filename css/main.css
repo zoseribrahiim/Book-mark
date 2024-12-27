@@ -1,0 +1,12 @@
+nav .navbar-brand{
+    font-family: "Sevillana", cursive;
+}
+
+.circle div {
+    width: 20px;
+    height: 20px;
+}
+
+.modal-lg {
+    --bs-modal-width: 550px;
+}
